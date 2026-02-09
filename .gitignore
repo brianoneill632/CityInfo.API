@@ -29,3 +29,6 @@ x86/
 # Local environment
 .env
 appsettings.Development.json
+/obj/Debug/net10.0/ApiEndpoints.json
+/obj/Debug/net10.0/apphost.exe
+/obj/Debug/net10.0/CityInfo.API.assets.cache
