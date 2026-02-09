@@ -1,19 +1,31 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# Build folders
+bin/
+obj/
 
-/bin/Debug/net10.0/CityInfo.API.exe
-/bin/Debug/net10.0/CityInfo.API.pdb
-/bin/Debug/net10.0/CityInfo.API.dll
-/obj/Debug/net10.0/EndpointInfo/CityInfo.API.json
-/obj/Debug/net10.0/ref/CityInfo.API.dll
-/obj/Debug/net10.0/refint/CityInfo.API.dll
-/obj/Debug/net10.0/CityInfo.API.AssemblyInfo.cs
-/obj/Debug/net10.0/CityInfo.API.AssemblyInfoInputs.cache
-/obj/Debug/net10.0/CityInfo.API.csproj.FileListAbsolute.txt
-/obj/Debug/net10.0/CityInfo.API.csproj.CoreCompileInputs.cache
-/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
-/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
-*.json
-/obj/Debug/net10.0/CityInfo.API.pdb
-/obj/Debug/net10.0/CityInfo.API.dll
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# NuGet
+.nuget/
+
+# Local environment
+.env
+appsettings.Development.json
