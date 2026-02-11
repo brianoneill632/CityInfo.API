@@ -6,6 +6,14 @@
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
-        public int NumberOfPointsOfInterest { get; set; }
+        public int NumberOfPointsOfINterest
+        {
+            get
+            {
+                return PointsOfInterest.Count;
+            }
+        }
+
+        public ICollection<PointOfInterestDto> PointsOfInterest { get; set; } = [];
     }
 }

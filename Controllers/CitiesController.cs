@@ -20,6 +20,11 @@ namespace CityInfo.API.Controllers
 
             var cityToReturn = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == id);
 
+            if (cityToReturn == null)
+            {
+                return NotFound();
+            }
+
             return Ok(cityToReturn);
             //return new JsonResult(CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == id));
         }
