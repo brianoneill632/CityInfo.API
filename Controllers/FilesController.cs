@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
-using System.Reflection.Metadata.Ecma335;
 
 namespace CityInfo.API.Controllers
 {
     [Route("api/files")]
     [ApiController]
+    [Authorize]
     public class FilesController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider) : ControllerBase
     {
 

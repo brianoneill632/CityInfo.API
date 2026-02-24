@@ -3,6 +3,7 @@ using CityInfo.API.DBContexts;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using SQLitePCL;
 
@@ -16,8 +17,6 @@ Log.Logger = new LoggerConfiguration()
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Logging.ClearProviders();
-//builder.Logging.AddConsole();
 builder.Host.UseSerilog();
 
 // Add services to the container.
@@ -29,15 +28,6 @@ builder.Services.AddControllers(options =>
 .AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddProblemDetails();
-
-//builder.Services.AddProblemDetails(options =>
-//{
-//    options.CustomizeProblemDetails = ctx =>
-//    {
-//        ctx.ProblemDetails.Extensions.Add("additionalInfo", "Additional info example");
-//        ctx.ProblemDetails.Extensions.Add("server", Environment.MachineName);
-//    };
-//});
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -60,6 +50,26 @@ builder.Services.AddScoped<ICityInfoRepository, CityInfoRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Authentication:Issuer"],
+        ValidAudience = builder.Configuration["Authentication:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(builder.Configuration["Authentication:SecretForKey"]))
+    };
+});
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("MustBeFromAntwerp", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("city", "Antwerp");
+    });
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -76,12 +86,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
-IApplicationBuilder applicationBuilder = app.UseEndpoints(endpoints =>
+app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
